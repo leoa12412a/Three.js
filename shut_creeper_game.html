@@ -7,13 +7,21 @@
 			body { margin: 0; }
 			canvas { width: 100%; height: 100% }
 		</style>
+		<style>
+			#stats {
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
 	</head>
 	<body>
+		<div id="stats"></div>
 		<script src="js/main/three.js"></script>
 		<script src="js/controls/OrbitControls.js"></script>
 		<script src="js/libs/stats.min.js"></script>
 		<script>
-			let renderer, scene, camera;
+			let renderer, scene, camera, cameraControl, statsUI;
 			
 			class Creeper
 			{
@@ -64,6 +72,14 @@
 				scene.add(creeperObj.creeper);
 			}
 			
+			function initStats() 
+			{
+				const stats = new Stats()
+				stats.setMode(0) // FPS mode
+				document.getElementById('stats').appendChild(stats.domElement)
+				return stats
+			}
+			
 			function init()
 			{
 				scene = new THREE.Scene();	//建立場景
@@ -91,18 +107,24 @@
 				let axes = new THREE.AxesHelper(20);	// 三軸座標輔助
 				scene.add(axes);
 				
-				create_creeper();
+				statsUI = initStats();	//初始化FPS監控
+				
+				create_creeper();	//產生苦力怕
 				
 				document.body.appendChild(renderer.domElement);
 				
-				var cameraControl = new THREE.OrbitControls( camera, renderer.domElement );
+				cameraControl = new THREE.OrbitControls( camera, renderer.domElement );
 				cameraControl.enableDamping = true // 啟用阻尼效果，意思是否有慣性
 				cameraControl.dampingFactor = 0.25 // 阻尼系數，鼠拖拽旋轉靈敏度
+				cameraControl.update();
 			}
 			
-			function render() {
-			  requestAnimationFrame(render);
-			  renderer.render(scene, camera);
+			function render() 
+			{	
+				requestAnimationFrame(render);  //畫面有變動重新宣染
+				cameraControl.update();
+				statsUI.update(); // 需設定 update 才會持續更新
+				renderer.render(scene, camera);
 			}
 			
 			window.addEventListener('resize', function() {
