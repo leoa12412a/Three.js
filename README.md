@@ -18,7 +18,7 @@
 
 在開始 coding 前還有一個關於坐標的基本觀念，少了這個的話在三維場景中將很難理解各項元素的位置。
 Three.js這裡是使用右手座標定位，可以使用<a target="_blank" href="https://threejs.org/docs/#api/en/helpers/AxesHelper"></a>來使用
-![image]('img/handed_coordinates.jpg')
+![image](img/handed_coordinates.jpg)
 
 首先先把剛剛下載的範例包裡的three.min.js抓出來且引入，three.js-master/build/three.min.js
 ```
