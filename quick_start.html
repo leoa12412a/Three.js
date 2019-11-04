@@ -10,7 +10,6 @@
 	</head>
 	<body>
 		<script src="js/main/three.js"></script>
-		<script src="js/controls/OrbitControls.js"></script>
 		<script>
 			var scene = new THREE.Scene();
 			
@@ -48,7 +47,14 @@
 			  renderer.render(scene, camera);
 			}
 			
+			window.addEventListener('resize', function() {
+			  camera.aspect = window.innerWidth / window.innerHeight
+			  camera.updateProjectionMatrix()
+			  renderer.setSize(window.innerWidth, window.innerHeight)
+			});
+			
 			render();
+			
 		</script>
 	</body>
 </html>
