@@ -82,8 +82,13 @@ cube.rotation.y += 0.01;	//已y軸為軸心旋轉
 
 ### 7.宣染場景
 ```
-requestAnimationFrame(render);
-renderer.render(scene, camera);
+function render()
+{
+  requestAnimationFrame(render);
+  renderer.render(scene, camera);
+}
+
+render();
 ```
 最後就是呼叫渲染器將剛才場景中的設定都渲染到畫面上。
 
