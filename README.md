@@ -57,7 +57,7 @@ camera.lookAt:這個屬性是指相機會盯著何處，一般畫面沒也特別
 ### 4.建立物體
 ```
 const geometry = new THREE.BoxGeometry(1, 1, 1); // 幾何體
-const material = new THREE.MeshNormalMaterial({ color: 0x0000ff }); // 材質
+const material = new THREE.MeshPhongMaterial({ color: 0x0000ff }) // 材質
 cube = new THREE.Mesh(geometry, material); // 建立網格物件
 cube.position.set(0, 0, 0);	//設定初始位置
 scene.add(cube);	//加入場景
