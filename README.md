@@ -63,7 +63,8 @@ cube.position.set(0, 0, 0);	//設定初始位置
 scene.add(cube);	//加入場景
 ```
 幾何體建立的<a target="_blank" href="https://threejs.org/docs/index.html#api/en/geometries/BoxGeometry">官方文件</a>
-各種材質(Material)的<a target="_blank" href="https://ithelp.ithome.com.tw/articles/10192953">介紹(DAY19.Three.js 材質 Material)</a>
+各種材質(Material)的<a target="_blank" href="https://ithelp.ithome.com.tw/articles/10192953">介紹(DAY19.Three.js 材質 Material)</a>以及
+<a target="_blank" href="https://ithelp.ithome.com.tw/articles/10204201">用 Three.js 來當個創世神 (07)：材質（Material）</a>
 
 
 ### 5.建立光源
