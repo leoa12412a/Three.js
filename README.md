@@ -22,7 +22,7 @@ Three.js這裡是使用右手座標定位，可以使用<a target="_blank" href=
 
 首先先把剛剛下載的範例包裡的three.min.js抓出來且引入，three.js-master/build/three.min.js
 ```
-<script src="js/main/three.js"></script>
+<script src="js/main/three.min.js"></script>
 ```
 
 ### 1.建立場景
