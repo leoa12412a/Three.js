@@ -31,25 +31,57 @@
 					const bodyGeo = new THREE.BoxGeometry(4, 8, 2);
 					const footGeo = new THREE.BoxGeometry(2, 3, 2);
 					
-					const creeperMat = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+					const headmap = new THREE.TextureLoader().load('/img/cat_face.PNG');
+					const skinmap = new THREE.TextureLoader().load('/img/creeper_skin.png');
+					
+					const skinMat = new THREE.MeshPhongMaterial({
+						roughness: 0.3, // 粗糙度
+						metalness: 0.8, // 金屬感
+
+						side: THREE.DoubleSide, // 雙面材質
+						map: skinmap // 皮膚貼圖
+					});
+					
+					const headMaterials = [];
+					
+					for(let i=0;i<=5;i++)
+					{
+						let map;
+					
+						if(i == 4)
+						{
+							map = headmap;
+						}
+						else
+						{
+							map = skinmap;
+						}
+						
+						headMaterials.push(new THREE.MeshStandardMaterial({ map: map }))
+					}
 					
 					// 頭
-					const head = new THREE.Mesh(headGeo, creeperMat);
-					head.position.set(0, 6, 0);
+					const head = new THREE.Mesh(headGeo, headMaterials);
+					head.position.set(0, 13, 0);
+					head.rotation.y = 1;
 
 					// 身體
-					var body = new THREE.Mesh(bodyGeo, creeperMat);
-					body.position.set(0, 0, 0);
+					var body = new THREE.Mesh(bodyGeo, skinMat);
+					body.position.set(0, 6.8, 0);
 					
 					// 四隻腳
-					var foot1 = new THREE.Mesh(footGeo, creeperMat);
-						foot1.position.set(-1, -5.5, 2);
+					var foot1 = new THREE.Mesh(footGeo, skinMat);
+						foot1.position.set(-1, 1.5, 2);
+						foot1.rotation.x = -0.5;
 					var foot2 = foot1.clone(); // 剩下三隻腳都複製第一隻的 Mesh
-						foot2.position.set(-1, -5.5, -2);
+						foot2.position.set(-1, 1.5, -2);
+						foot2.rotation.x = 0.3;
 					var foot3 = foot1.clone();
-						foot3.position.set(1, -5.5, 2);
+						foot3.position.set(1, 1.5, 2);
+						foot3.rotation.x = -0.2;
 					var foot4 = foot1.clone();
-						foot4.position.set(1, -5.5, -2);
+						foot4.position.set(1, 1.5, -2);
+						foot4.rotation.x = 0.5;
 
 					// 將四隻腳組合為一個 group
 					var feet = new THREE.Group();
@@ -96,12 +128,11 @@
 			    const planeMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
 			    let plane = new THREE.Mesh(planeGeometry, planeMaterial);
 			    plane.rotation.x = -0.5 * Math.PI;
-			    plane.position.set(0, -7, 0);
-			    scene.add(plane);
-				
+			    plane.position.set(0, 0, 0);
+			    scene.add(plane);				
 
-			    let spotLight = new THREE.SpotLight(0x00a0e9);		//光源
-			    spotLight.position.set(-10, 40, 30);
+			    let spotLight = new THREE.SpotLight(0xFFFFFF,1.5);		//光源
+			    spotLight.position.set(10, 40, 15);
 			    scene.add(spotLight);
 								
 				let axes = new THREE.AxesHelper(20);	// 三軸座標輔助

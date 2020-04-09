@@ -349,3 +349,142 @@ function render()
 
 網站參考:<a target="_blank" href="https://ithelp.ithome.com.tw/articles/10200289">用 Three.js 來當個創世神 (06) OrbitControls、stats.js</a>
 程式碼:<a target="_blank" href="https://github.com/leoa12412a/Three.js/blob/master/shut_creeper_game.html">連結</a>
+
+
+## 使用模組來載入Three.js(Import via modules)
+
+雖然使用<script src="three.js" />來引入js既簡單又快速，但如果專案的生命週期較長的話會產生一些缺點
+
+- You have to manually fetch and include a copy of the library as part of your project's source code
+- 必須手動更新library內模組的版本
+- 在檢查新版本時，容易因版本差異而被許多繁重的建構文件給擾亂(many lines of the build file)
+
+
+### 使用Nodejs
+
+若使用node.js的話，安裝方面直接使用npm就可以完成了
+
+```
+npm install three
+```
+
+在引入方面則是與一般的模組一樣的方式
+
+```
+var THREE = require('three');
+
+var scene = new THREE.Scene();
+...
+```
+
+### 使用HTML可以使用ES6 import
+
+```
+import * as THREE from 'three.module.js';  // 1.* 引入全部 2.as + 選告引入文件的變數
+
+const scene = new THREE.Scene();
+...
+```
+若只想引入特定的部分
+
+```
+import { Scene } from 'three';
+
+const scene = new Scene();
+...
+```
+
+### 載入時可能發生的錯誤
+
+#### 1.必須以module形式來 import 與 export
+
+<font style="color:red">Uncaught SyntaxError: Cannot use import statement outside a module</font>
+
+跟 Node.js 類似，若是想要使用 import 與 export，都必須以 module 的形式來執行，所以要在 script 標籤加上 type：
+
+```
+<script type="module">
+
+import * as THREE from 'three.module.js';
+
+<script>
+```
+
+#### 2.必須使用伺服器方式開啟
+
+<font style="color:red">
+Access to script at 'file:///Users/huli/w_test/main.js' from origin 'null'
+has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes:
+http, data, chrome, chrome-extension, https.
+</font>
+
+```
+直接點擊文件網址開頭會是 file:///。若是要使用 import 的話，必須要用伺服器的方式開啟才行。
+```
+
+各說明以及更詳細的模組化解說可以參考<a href="https://blog.techbridge.cc/2020/01/22/webpack-%E6%96%B0%E6%89%8B%E6%95%99%E5%AD%B8%E4%B9%8B%E6%B7%BA%E8%AB%87%E6%A8%A1%E7%B5%84%E5%8C%96%E8%88%87-snowpack/">這裡</a>
+
+
+## 使用Three來載入3D模組
+
+### Three所支援的格式
+
+Three支援許多不同格式的匯入，如下:
+
+![image](img/loaderlist.jpg)
+(實際支援請以官網為準)
+
+### 將GLTF匯入至Three中
+
+glTF是使用JSON標準的3D場景和模型的文件格式，也是常見的3D素材的格式之一。並是開放文檔格式(open format specification)，常用於高效能的傳輸、加載3D內容。此文件使用是以JSON（.glft）格式或二進制（.glb）格式提供，外部則是以（.jpg、.png）和額外的數據（.bin）輔助。
+
+
+而要將glTF引入首先我們必須引入glTF的loader，並用new的方式宣告一個GLTFLoader
+
+```
+import { GLTFLoader } from '/jsm/loaders/GLTFLoader.js';
+
+var loader = new GLTFLoader();
+```
+
+然後只用loader來載入檔案
+
+```
+loader.load('/model/base/scene.gltf',function (obj) {
+	console.log(obj);
+	scene.add(obj.scene);
+}
+,function ( xhr ) {
+	console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+},
+function ( error ) {
+	build_Wolf();
+});
+```
+上面程式碼中
+
+- 第一個fnc是載入完成
+- 第二個fnc是載入中
+- 第三個fnc是載入失敗
+
+在加載後console我們載入的obj在F12裡可以看到其完整的資訊。
+
+
+若要調整載入素材
+- 大小可以修改物件children下的scale，預設x,y,z都是1，調整其數值可以使物件縮放
+- 位置可以修改scene.position
+- scene.name可以賦予名字方便選取
+
+```
+loader.load('/model/base/scene.gltf',function (obj) {
+	let gltf = obj.scene.children[0];
+	gltf.scale.set(20,20,20);
+	obj.scene.name = 'base';
+	obj.scene.position.set(0, 58, 0); 
+	scene.add(obj.scene);
+}
+```
+
+
+
+
