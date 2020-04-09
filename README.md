@@ -351,7 +351,7 @@ function render()
 程式碼:<a target="_blank" href="https://github.com/leoa12412a/Three.js/blob/master/shut_creeper_game.html">連結</a>
 
 
-## 使用模組來載入Three.js(Import via modules)
+# 使用模組來載入Three.js(Import via modules)
 
 雖然使用<script src="three.js" />來引入js既簡單又快速，但如果專案的生命週期較長的話會產生一些缺點
 
