@@ -431,7 +431,7 @@ http, data, chrome, chrome-extension, https.
 
 Three支援許多不同格式的匯入，如下:
 
-![image](img/loaderlist.jpg)
+![image](img/loaderlist.PNG)
 (實際支援請以官網為準)
 
 ### 將GLTF匯入至Three中
