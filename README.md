@@ -351,7 +351,7 @@ function render()
 程式碼:<a target="_blank" href="https://github.com/leoa12412a/Three.js/blob/master/shut_creeper_game.html">連結</a>
 
 
-# 使用模組來載入Three.js(Import via modules)
+## 使用模組來載入Three.js(Import via modules)
 
 雖然使用<script src="three.js" />來引入js既簡單又快速，但如果專案的生命週期較長的話會產生一些缺點
 
@@ -431,7 +431,7 @@ http, data, chrome, chrome-extension, https.
 
 Three支援許多不同格式的匯入，如下:
 
-![image](img/loaderlist.PNG)
+![image](img/loaderlist.jpg)
 (實際支援請以官網為準)
 
 ### 將GLTF匯入至Three中
@@ -486,5 +486,20 @@ loader.load('/model/base/scene.gltf',function (obj) {
 ```
 
 
+## 	點光源(PointLight)
 
+點光源:從一個點向個方向發射光源，一個比較常見的例子是燈泡發出燈光，這個光可以投影出陰影
 
+程式碼如下:
+```
+var light = new THREE.PointLight( 0xff0000, 1, 100 );
+light.position.set( 50, 50, 50 );
+scene.add( light );
+```
+
+PointLight( color : Integer, intensity : Float, distance : Number, decay : Float )
+
+- color:光照顏色，預設為0xffffff
+- intensity:光照強度
+- distance:光源遞減到0的距離，數值越大，光照範圍越遠。設為0時，光照距離無限大
+- decay:根據光照距離的衰減量，預設值為1
