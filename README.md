@@ -503,3 +503,117 @@ PointLight( color : Integer, intensity : Float, distance : Number, decay : Float
 - intensity:光照強度
 - distance:光源遞減到0的距離，數值越大，光照範圍越遠。設為0時，光照距離無限大
 - decay:根據光照距離的衰減量，預設值為1
+
+
+## 使用Tween.js來製作補間動畫
+
+<a href="https://createjs.com/tweenjs">Tween.js</a>是在Create.js下的功能之一，是一個輕量的 Javascript 函式庫，主要是產生及計算位置到位置之間如何進行的動畫，只要給它起始值、結束值、過程需花費多少時間，其他的中間值會自動被計算出來。
+另外<a href=""></a>Create.js下還有<a href="https://createjs.com/easeljs">Easel.js</a>、<a href="https://createjs.com/soundjs">Sound.js</a>、<a href="https://createjs.com/preloadjs">Preload.js</a>，分別的功能為輕鬆使用Canvas元素、有效的處理音效以及管理、協調數據和資源的加載
+
+
+### 安裝
+
+使用JS加載
+```
+<script src="https://code.createjs.com/1.0.0/tweenjs.min.js"></script>
+```
+
+使用module引入(<a href="js/main/tween.module.min.js">下載</a>)
+```
+import { TWEEN } from './js/main/tween.module.min.js';
+```
+
+### 開始補間
+
+以下簡單的介紹Tween的使用方式:
+
+```
+var position = obj.position.set(0,0);
+var target = { x: 300, y: 200 };
+var time = 1000;
+
+var tween = new TWEEN.Tween(position) 
+	.to(target, time) 
+	.easing(TWEEN.Easing.Quadratic.Out)
+	.onUpdate(function() {
+		console.log(position);
+		console.log('running');
+	})
+	.onComplete(function() {
+		console.log('finish');
+	})
+	.start();
+```
+
+- position : 初始位置
+- target : 為目標位置
+- time : 動畫時間(ms)
+- .easing : 補間動畫效果
+- .onUpdate : 在動畫期間觸發事件，在這段時間position會逐漸變成target
+- .onComplete : 動畫後要觸發事件
+- .start : 開始補間
+
+<a href="https://codepen.io/mikebolt/pen/zzzvZg?editors=0010">官方範例</a>
+
+## 粒子系統介紹
+
+在 3D 場景中，當我們需要建立很多細小的物體時，如果一個一個創建，就需要分別管理每一顆粒子，勢必會遇到性能問題。因此在 Three.js 中，提供了 THREE.Points 這樣的粒子系統來統一管理大量的粒子。
+<a href="https://stemkoski.github.io/Three.js/Particle-Engine.html">範例</a>
+
+而在Three.js中Point的使用方式一種是以物件方式呈現，另一種則把他以材質的方式加入到期他的物件內
+
+- Points(Objects)
+
+```
+Points( geometry : Geometry, material : Material )
+```
+
+這種粒子物件通常使用在需要比較多點建構出來的物體，並且以構造出來的點做成以點構成的幾何體，如球形物體就適合如此之運用
+
+以球形為基礎產生點物件
+```
+function createSpherePoints() {
+	const geometry = new THREE.SphereGeometry(20, 15, 15) // 使用球體(半徑，縱方向數量，橫方向數量)
+	
+	const material = new THREE.PointsMaterial({		//產生點材質
+		size: 2,	//點大小		
+		color: 0x00ff00 // 綠色
+	})
+
+	// 用球體與材質建立一個粒子系統
+	let spherePoints = new THREE.Points(geometry, material) 
+	spherePoints.position.set(40, 30, 0)
+	scene.add(spherePoints)
+}
+```
+
+- PointsMaterial(Materials)
+
+材質方面就如同其他材質方式配合物件使用
+
+```
+
+function createVerticesPoints() {
+	const geometry = new THREE.Geometry() // 先宣告一個空的幾何體
+	const material = new THREE.PointsMaterial({
+		size: 4,
+		color: 0xff00ff // 粉紅色
+	})
+	
+	for (let x = -5; x < 5; x++) {
+		for (let y = -5; y < 5; y++) {
+			
+			const point = new THREE.Vector3(x * 10, y * 10, 0)  // 設定點要產生的座標位置
+			
+			geometry.vertices.push(point)	//將位置加入至幾何體中
+		}
+	}
+	
+	// 用前面的幾何體與材質建立一個粒子系統
+	let points = new THREE.Points(geometry, material) 
+	points.position.set(-45, 0, 0)
+	scene.add(points)
+}
+```
+
+	
