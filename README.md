@@ -616,4 +616,43 @@ function createVerticesPoints() {
 }
 ```
 # 在3D模組上備註
-要如何達到像<a href="https://sketchfab.com/3d-models/dodo-model-ad10226b4f7a451ea23920a556c72a90">Sketchfab</a>上能在模型或是3D場景上產生類似註解的方框，並根據畫面的轉動一樣備註在其位置上?
+要如何達到像<a href="https://sketchfab.com/3d-models/dodo-model-ad10226b4f7a451ea23920a556c72a90">Sketchfab</a>上能在模型或是3D場景上產生類似註解的方框，並根據畫面的轉動一樣備註在其位置上?<br />
+可以參考<a href="https://manu.ninja/webgl-three-js-annotations/#3">教學網站</a><br />
+
+## 在2D canvas上畫出標記的符號
+首先我們在HTML上產生一個Canvas並使用原生的Canvas語法在上面畫出1的符號，已備來當備註使用
+```
+<canvas id="number" width="64" height="64"></canvas>
+```
+當然我們也可以用語法產生一個Canvas
+```
+document.createElement('canvas')
+```
+<br />
+接著我們畫出一個1的符號
+```
+const canvas = document.getElementById('number');
+const ctx = canvas.getContext('2d');
+const x = 32;
+const y = 32;
+const radius = 30;
+const startAngle = 0;
+const endAngle = Math.PI * 2;
+
+ctx.fillStyle = 'rgb(0, 0, 0)';
+ctx.beginPath();
+ctx.arc(x, y, radius, startAngle, endAngle);
+ctx.fill();
+
+ctx.strokeStyle = 'rgb(255, 255, 255)';
+ctx.lineWidth = 3;
+ctx.beginPath();
+ctx.arc(x, y, radius, startAngle, endAngle);
+ctx.stroke();
+
+ctx.fillStyle = 'rgb(255, 255, 255)';
+ctx.font = '32px sans-serif';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText('1', x, y);
+```
