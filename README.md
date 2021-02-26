@@ -615,5 +615,5 @@ function createVerticesPoints() {
 	scene.add(points)
 }
 ```
-
-	
+# 在3D模組上備註
+要如何達到像<a href="https://sketchfab.com/3d-models/dodo-model-ad10226b4f7a451ea23920a556c72a90">Sketchfab</a>上能在模型或是3D場景上產生類似註解的方框，並根據畫面的轉動一樣備註在其位置上?
