@@ -630,6 +630,7 @@ document.createElement('canvas')
 ```
 <br />
 接著我們畫出一個1的符號
+
 ```
 const canvas = document.getElementById('number');
 const ctx = canvas.getContext('2d');
