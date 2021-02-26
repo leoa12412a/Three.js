@@ -657,3 +657,6 @@ ctx.textAlign = 'center';
 ctx.textBaseline = 'middle';
 ctx.fillText('1', x, y);
 ```
+如下圖就是我們用canvas匯出的標註符號
+<br />
+![image](img/handed_coordinates.jpg)
