@@ -659,4 +659,30 @@ ctx.fillText('1', x, y);
 ```
 如下圖就是我們用canvas匯出的標註符號
 <br />
-![image](img/handed_coordinates.jpg)
+![image](img/1%E5%82%99%E8%A8%BB.PNG)
+
+## 使用Three的sprite方法將標註加載在場景中
+
+我們將使用Three的<a href="https://threejs.org/docs/index.html#api/en/objects/Sprite">sprite</a>方法把剛剛產生出的canvas載入我們的3D場景中<br />
+sprite這個方法會讓正面永遠面向相機，如<a href="https://threejs.org/examples/?q=sprite#webgl_sprites_nodes">範例</a>所演示的樣子。<br />
+先使用CanvasTexture的方法把剛剛我們畫好的Canvas標註轉換成類似皮膚(skin)之類的物件，並產生sprite專用的材質SpriteMaterial且將剛剛的皮膚加入到其中，
+那我們再利用剛剛已經製作好的材質來產生sprite加入scene就可以在場景中(scene)出現了
+```
+const numberTexture = new THREE.CanvasTexture(
+    document.querySelector('#number')
+);
+
+const spriteMaterial = new THREE.SpriteMaterial({
+    map: numberTexture,
+    alphaTest: 0.5,
+    transparent: true,
+    depthTest: false,
+    depthWrite: false
+});
+
+sprite = new THREE.Sprite(spriteMaterial);
+sprite.position.set(250, 250, 250);
+sprite.scale.set(35, 35, 1);
+
+scene.add(sprite);
+```
