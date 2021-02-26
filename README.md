@@ -624,6 +624,20 @@ function createVerticesPoints() {
 ```
 <canvas id="number" width="64" height="64"></canvas>
 ```
+其CSS
+```
+canvas {
+	width: 100%;
+	height: 100px;
+	display: block;
+}
+
+#number {
+	position: absolute;
+	z-index: -1;
+	display: none;
+}
+```
 當然我們也可以用語法產生一個Canvas
 ```
 document.createElement('canvas')
@@ -686,3 +700,75 @@ sprite.scale.set(35, 35, 1);
 
 scene.add(sprite);
 ```
+如下圖就是將sprite加入場景中
+![image](img/Sprite.png)
+
+## 將HTML備註的文字永遠保持在備註的旁邊
+先產生html的文字
+```
+<div class="annotation">
+	<p><strong>Cube</strong></p>
+	<p>In geometry, a cube is a three-dimensional solid object bounded by six square faces, facets or sides, with three meeting at each vertex.</p>
+</div>
+```
+其CSS
+```
+.annotation {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	margin-left: 15px;
+	margin-top: 15px;
+	padding: 1em;
+	width: 200px;
+	color: #fff;
+	background: rgba(0, 0, 0, 0.8);
+	border-radius: .5em;
+	font-size: 12px;
+	line-height: 1.2;
+	transition: opacity .5s;
+	&::before {
+		content: '1';
+		position: absolute;
+		top: -30px;
+		left: -30px;
+		width: 30px;
+		height: 30px;
+		border: 2px solid #fff;
+		border-radius: 50%;
+		font-size: 16px;
+		line-height: 30px;
+		text-align: center;
+		background: rgba(0, 0, 0, 0.8);
+	}
+}
+```
+那接下來我們只需寫一個function運用數學式的計算將備註文字保持在我們的備註旁邊，Vector3這個方法是幫我們產生一個3D的座標並將整個場景(renderer.domElement)宣告告成canvas，
+並利用整個場景的大小及標註的位置來計算出HTML文字需要存在的位置
+```
+function update_text()
+{
+	const vector = new THREE.Vector3(3, 20.5, 1);
+	const canvas = renderer.domElement;
+	
+	vector.project(camera);
+	
+	vector.x = Math.round((0.5 + vector.x / 2) * (canvas.width / window.devicePixelRatio));
+	vector.y = Math.round((0.5 - vector.y / 2) * (canvas.height / window.devicePixelRatio));
+	
+	annotation.style.top = `${vector.y}px`;
+	annotation.style.left = `${vector.x}px`;
+}
+```
+且我們將這個function放入render()內，這樣每次的宣染都會重新再將正確的位置告訴HTML
+```
+function render()
+{
+	requestAnimationFrame(render);
+	controls.update();
+	renderer.render(scene, camera);
+	update_text();
+}
+```
+
