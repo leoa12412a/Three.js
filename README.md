@@ -174,7 +174,7 @@ window.addEventListener('resize', function() {
 </html>
 ```
 
-###2.建立一個平面的地板
+### 2.建立一個平面的地板
 這裡使用一個平面幾何的方法<a target="_blank" href="https://threejs.org/docs/index.html#api/en/geometries/PlaneGeometry">官方說明</a>
 ```
 const planeGeometry = new THREE.PlaneGeometry(60, 60);		//地板
